@@ -12,8 +12,7 @@
   [cider/cider-nrepl "0.28.1"]]
 
  :dev-http
- {8280 "resources/public"
-  8290 "target/browser-test"}
+ {8280 "resources/public"}
 
  :builds
  {:app
@@ -27,4 +26,4 @@
    :dev
    {:compiler-options
     {:closure-defines
-     { }}}}}}
+     {}}}}}}

@@ -13,6 +13,7 @@ jobs:
       - name: build
         run: |
           npm ci
+          npm run css-build
           npm run release
 
       - name: setup git config
@@ -22,6 +23,6 @@ jobs:
 
       - name: commit
         run: |
-          git add -f resources/public/js/compiled/app.js
-          git commit -m "Add compiled js"
+          git add -f out
+          git commit -m "Add compiled artifacts"
           git push -f origin HEAD:gh-pages

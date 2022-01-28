@@ -2,7 +2,7 @@
 
  :jvm-opts ["-Xmx1G"]
 
- :source-paths ["src" "test"]
+ :source-paths ["src"]
 
  :dependencies
  [[reagent "1.1.0"]
@@ -12,13 +12,13 @@
   [cider/cider-nrepl "0.28.1"]]
 
  :dev-http
- {8280 "resources/public"}
+ {8280 "./"}
 
  :builds
  {:app
   {:target     :browser
-   :output-dir "resources/public/js/compiled"
-   :asset-path "/js/compiled"
+   :output-dir "out/js"
+   :asset-path "/js"
    :modules
    {:app {:init-fn github-page.core/init}}
    :devtools

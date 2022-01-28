@@ -7,4 +7,5 @@
   (let [name (re-frame/subscribe [::subs/name])]
     [:div
      [:h1
-      "Henlo " @name]]))
+      "Henlo " @name]
+     [:progress.progress.is-primary {:max "100", :value "15"} "15%"]]))

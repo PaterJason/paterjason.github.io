@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: build
+        run: |
+          npm ci
+          npm run release
+
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: commit
+        run: |
+          git add -f resources/public/js/compiled/app.js
+          git commit -m "Add compiled js"
+          git push -f origin HEAD:gh-pages

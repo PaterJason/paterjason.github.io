@@ -3,9 +3,9 @@
    [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
- ::name
+ ::current-route
  (fn [db]
-   (:name db)))
+   (:current-route db)))
 
 (re-frame/reg-sub
  ::burger-expanded

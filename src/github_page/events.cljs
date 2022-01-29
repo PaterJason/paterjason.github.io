@@ -14,8 +14,8 @@
    {:db (update db :navbar-burger-expanded not)}))
 
 (rf/reg-event-fx
- ::nav
+ ::on-nav
  (fn [{:keys [db]} [_ match history]]
    {:db (-> db
             (assoc :navbar-burger-expanded false)
-            (assoc :name (get-in match [:data :name])))}))
+            (assoc :current-route match))}))

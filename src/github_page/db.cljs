@@ -1,5 +1,4 @@
 (ns github-page.db)
 
 (def default-db
-  {:navbar-burger-expanded false
-   :name "re-frame"})
+  {:navbar-burger-expanded false})

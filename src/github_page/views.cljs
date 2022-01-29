@@ -1,6 +1,5 @@
 (ns github-page.views
   (:require
-   [reagent.core :as r]
    [re-frame.core :as re-frame]
    [reitit.frontend.easy :as rfe]
    [github-page.routes :as routes]
@@ -9,7 +8,7 @@
 
 (defn navbar []
   (let [burger-expanded (re-frame/subscribe [::subs/burger-expanded])]
-    [:nav.navbar.is-dark
+    [:nav.navbar.is-primary
      {:aria-label "main navigation"
       :role "navigation"}
      [:div.navbar-brand
@@ -33,10 +32,10 @@
                 "is-active")}
       [:div.navbar-start
        [:a.navbar-item
-        {:on-click #(rfe/push-state ::routes/home)}
+        {:href (rfe/href ::routes/home)}
         "Home"]
        [:a.navbar-item
-        {:on-click #(rfe/push-state ::routes/about)}
+        {:href (rfe/href ::routes/about)}
         "About"]
        [:div.navbar-item.has-dropdown.is-hoverable
         [:a.navbar-link "More"]
@@ -47,10 +46,13 @@
          [:a.navbar-item "Report an issue"]]]]
       [:div.navbar-end]]]))
 
-(defn main-panel []
-  (let [name (re-frame/subscribe [::subs/name])]
+(defn router-component []
+  (let [current-route @(re-frame/subscribe [::subs/current-route])]
     [:div
-     [navbar]
-     [:h1
-      "Henlo " @name]
-     [:progress.progress.is-primary {:max "100" :value "15"} "15%"]]))
+     (when current-route
+       [(get-in current-route [:data :view])])]))
+
+(defn main-panel []
+  [:div
+   [navbar]
+   [router-component]])

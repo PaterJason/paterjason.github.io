@@ -6,3 +6,8 @@
  ::name
  (fn [db]
    (:name db)))
+
+(re-frame/reg-sub
+ ::burger-expanded
+ (fn [db]
+   (:navbar-burger-expanded db)))

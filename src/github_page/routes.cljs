@@ -19,9 +19,8 @@
 (rfe/start!
  router
  on-navigate-fn
- {:use-fragment false
+ {:use-fragment true
   :ignore-anchor-click? (fn [router e el uri]
-                           ;; Add additional check on top of the default checks
                           (and (rfh/ignore-anchor-click? router e el uri)
                                (not= "false" (gobj/get (.-dataset el) "reititHandleClick"))))})
 

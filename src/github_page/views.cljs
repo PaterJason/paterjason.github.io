@@ -4,10 +4,11 @@
    [re-frame.core :as re-frame]
    [reitit.frontend.easy :as rfe]
    [github-page.routes :as routes]
-   [github-page.subs :as subs]))
+   [github-page.subs :as subs]
+   [github-page.events :as events]))
 
 (defn navbar []
-  (r/with-let [burger-expanded (r/atom false)]
+  (let [burger-expanded (re-frame/subscribe [::subs/burger-expanded])]
     [:nav.navbar.is-dark
      {:aria-label "main navigation"
       :role "navigation"}
@@ -17,11 +18,12 @@
        {:class (when @burger-expanded
                  "is-active")
         :on-click (fn []
-                    (swap! burger-expanded not))
+                    (re-frame/dispatch [::events/navbar-toggle]))
         :aria-expanded "false"
         :aria-label "menu"
         :role "button"
         :data-target "navbar-menu"}
+
        [:span {:aria-hidden "true"}]
        [:span {:aria-hidden "true"}]
        [:span {:aria-hidden "true"}]]]

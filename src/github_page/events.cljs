@@ -9,6 +9,13 @@
    db/default-db))
 
 (rf/reg-event-fx
+ ::navbar-toggle
+ (fn [{:keys [db]} [_]]
+   {:db (update db :navbar-burger-expanded not)}))
+
+(rf/reg-event-fx
  ::nav
  (fn [{:keys [db]} [_ match history]]
-   {:db (assoc db :name (get-in match [:data :name]))}))
+   {:db (-> db
+            (assoc :navbar-burger-expanded false)
+            (assoc :name (get-in match [:data :name])))}))

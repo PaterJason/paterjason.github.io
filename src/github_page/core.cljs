@@ -1,12 +1,11 @@
 (ns github-page.core
   (:require
-   [reagent.dom :as rdom]
-   [re-frame.core :as re-frame]
-   [github-page.events :as events]
-   [github-page.views :as views]
    [github-page.config :as config]
-   ))
-
+   [github-page.events :as events]
+   [github-page.routes :as routes]
+   [github-page.views :as views]
+   [re-frame.core :as re-frame]
+   [reagent.dom :as rdom]))
 
 (defn dev-setup []
   (when config/debug?

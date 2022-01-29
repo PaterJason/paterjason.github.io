@@ -1,5 +1,6 @@
 {
   "name": "github-page",
+  "homepage": "https://paterjason.github.io/",
   "scripts": {
     "watch": "npx shadow-cljs watch app",
     "release": "npx shadow-cljs release app",

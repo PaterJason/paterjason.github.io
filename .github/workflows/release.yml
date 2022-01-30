@@ -14,7 +14,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /root/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('shadow-cljs.edn') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('shadow-cljs.edn', '.github/workflows/**') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 

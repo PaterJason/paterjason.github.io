@@ -7,7 +7,7 @@
   (let [github @(rf/subscribe [::subs/github])]
     [:div.card
      [:div.card-image
-      [:figure.image.is-square
+      [:figure.image
        [:img {:src (:avatar_url github)}]]]
      [:div.card-content
       [:p.title (:name github)]

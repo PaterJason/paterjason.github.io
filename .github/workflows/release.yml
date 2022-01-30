@@ -13,8 +13,8 @@ jobs:
       - name: Maven cache
         uses: actions/cache@v2
         with:
-          path: /root/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('shadow-cljs.edn', '.github/workflows/**') }}
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('shadow-cljs.edn') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
@@ -46,5 +46,6 @@ jobs:
       - name: commit
         run: |
           git add -f out
+          git add -f node_modules/@fortawesome/fontawesome-free
           git commit -m "Add build artifacts"
           git push -f origin HEAD:gh-pages

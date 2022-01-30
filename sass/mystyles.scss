@@ -13,3 +13,7 @@ $purple: #9d7cd8;
 $red: #f7768e;
 
 @import "../node_modules/bulma/bulma.sass";
+
+.icon-text {
+  display: inline-block;
+}

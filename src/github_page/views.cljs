@@ -14,10 +14,8 @@
      [:div.navbar-brand
       [:div.navbar-item.has-text-weight-bold "Jason Paterson"]
       [:a.navbar-burger
-       {:class (when @burger-expanded
-                 "is-active")
-        :on-click (fn []
-                    (rf/dispatch [::events/navbar-toggle]))
+       {:class (when @burger-expanded "is-active")
+        :on-click #(rf/dispatch [::events/navbar-toggle])
         :aria-expanded "false"
         :aria-label "menu"
         :role "button"
@@ -33,17 +31,22 @@
       [:div.navbar-start
        [:a.navbar-item
         {:href (rfe/href ::routes/home)}
-        "Home"]
+        [:span.icon-text
+         [:span.icon [:i.fas.fa-home]]
+         [:span "Home"]]]
        [:a.navbar-item
         {:href (rfe/href ::routes/about)}
-        "About"]
+        [:span.icon-text
+         [:span.icon [:i.fas.fa-info]]
+         [:span "About"]]]
        [:div.navbar-item.has-dropdown.is-hoverable
         [:a.navbar-link "More"]
         [:div.navbar-dropdown
-         [:a.navbar-item "About"]
-         [:a.navbar-item "Contact"]
-         [:hr.navbar-divider]
-         [:a.navbar-item "Report an issue"]]]]
+         [:a.navbar-item
+          {:href ""}
+          [:span.icon-text
+           [:span.icon [:i.fab.fa-github]]
+           [:span "Site source"]]]]]]
       [:div.navbar-end]]]))
 
 (defn router-component []

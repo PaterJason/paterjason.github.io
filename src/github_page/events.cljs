@@ -40,7 +40,7 @@
 (rf/reg-event-fx
  ::get-github-failure
  (fn [{:keys [db]} [_ response]]
-   {}))
-
-(comment
-  (rf/dispatch [::get-github]))
+   (let [message "Failed to fetch GitHub profile"]
+     {:db (-> db
+              (assoc :github response)
+              (assoc-in [:github :message] message))})))

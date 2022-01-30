@@ -1,13 +1,13 @@
 (ns github-page.views
   (:require
-   [re-frame.core :as re-frame]
+   [re-frame.core :as rf]
    [reitit.frontend.easy :as rfe]
    [github-page.routes :as routes]
    [github-page.subs :as subs]
    [github-page.events :as events]))
 
 (defn navbar []
-  (let [burger-expanded (re-frame/subscribe [::subs/burger-expanded])]
+  (let [burger-expanded (rf/subscribe [::subs/burger-expanded])]
     [:nav.navbar.is-primary
      {:aria-label "main navigation"
       :role "navigation"}
@@ -17,7 +17,7 @@
        {:class (when @burger-expanded
                  "is-active")
         :on-click (fn []
-                    (re-frame/dispatch [::events/navbar-toggle]))
+                    (rf/dispatch [::events/navbar-toggle]))
         :aria-expanded "false"
         :aria-label "menu"
         :role "button"
@@ -47,7 +47,7 @@
       [:div.navbar-end]]]))
 
 (defn router-component []
-  (let [current-route @(re-frame/subscribe [::subs/current-route])]
+  (let [current-route @(rf/subscribe [::subs/current-route])]
     [:div
      (when current-route
        [(get-in current-route [:data :view])])]))

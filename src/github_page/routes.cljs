@@ -1,12 +1,12 @@
 (ns github-page.routes
   (:require
    [github-page.events :as events]
+   [github-page.views.pages :as pages]
+   [goog.object :as gobj]
+   [re-frame.core :as rf]
    [reitit.core :as r]
    [reitit.frontend.easy :as rfe]
-   [reitit.frontend.history :as rfh]
-   [goog.object :as gobj]
-   [re-frame.core :as re-frame]
-   [github-page.views.pages :as pages]))
+   [reitit.frontend.history :as rfh]))
 
 (def routes
   ["/"
@@ -20,7 +20,7 @@
 (def router (r/router routes))
 
 (defn on-navigate-fn [match history]
-  (re-frame/dispatch [::events/on-nav match history]))
+  (rf/dispatch [::events/on-nav match history]))
 
 (defn init! []
   (rfe/start!

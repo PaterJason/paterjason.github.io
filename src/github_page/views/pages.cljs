@@ -8,7 +8,7 @@
 
 (defn about []
   [:div.container
-   [:div.columns
+   [:div.columns.m-0
     [:div.column.is-half-tablet.is-one-third-desktop
      [component/user-card]]
     [:div.column

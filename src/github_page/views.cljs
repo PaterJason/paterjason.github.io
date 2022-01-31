@@ -1,10 +1,10 @@
 (ns github-page.views
   (:require
-   [re-frame.core :as rf]
-   [reitit.frontend.easy :as rfe]
+   [github-page.events :as events]
    [github-page.routes :as routes]
    [github-page.subs :as subs]
-   [github-page.events :as events]))
+   [re-frame.core :as rf]
+   [reitit.frontend.easy :as rfe]))
 
 (defn navbar []
   (let [burger-expanded (rf/subscribe [::subs/burger-expanded])]

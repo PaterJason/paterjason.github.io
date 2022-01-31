@@ -39,14 +39,19 @@
         [:span.icon-text
          [:span.icon [:i.fas.fa-info]]
          [:span "About"]]]
+       [:a.navbar-item
+        {:href (rfe/href ::routes/blog)}
+        [:span.icon-text
+         [:span.icon [:i.fas.fa-blog]]
+         [:span "Blog"]]]
        [:div.navbar-item.has-dropdown.is-hoverable
         [:a.navbar-link "More"]
         [:div.navbar-dropdown
          [:a.navbar-item
-          {:href ""}
+          {:href "https://github.com/PaterJason/paterjason.github.io"}
           [:span.icon-text
            [:span.icon [:i.fab.fa-github]]
-           [:span "Site source"]]]]]]
+           [:span "Source"]]]]]]
       [:div.navbar-end]]]))
 
 (defn router-component []

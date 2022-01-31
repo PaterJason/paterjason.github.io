@@ -21,7 +21,7 @@
         [:figure.image.is-square
          [:img {:src (:avatar_url github)}]]]
        [:div.card-content
-        [:p.title (:name github)]
+        [:h1.title (:name github)]
         [:ul
          [:li
           [:a {:href "mailto:jasonbipaterson@gmail.com"}

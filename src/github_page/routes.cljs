@@ -15,7 +15,10 @@
      :view pages/home}]
    ["about"
     {:name ::about
-     :view pages/about}]])
+     :view pages/about}]
+   ["blog"
+    {:name ::blog
+     :view pages/blog}]])
 
 (def router (r/router routes))
 

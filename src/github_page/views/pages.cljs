@@ -27,8 +27,7 @@
     (hooks/use-effect
      [id]
      (ajax/GET
-       (str
-        "https://paterjason.github.io/assets/blog/" id ".md")
+       (str "assets/blog/" id ".md")
        {:handler set-md
         :error-handler set-md}))
     (condp apply [md]

@@ -18,7 +18,7 @@ Vimscript without the need for external dependencies.
 
 So life is good, but it can be better. Given that we will be editing Clojure we
 may be more comfortable using a Lisp for our configuration. Instead of writing
-Lua directly, we can write [Fennel]("https://fennel-lang.org/"), a Lisp that
+Lua directly, we can write [Fennel](https://fennel-lang.org/), a Lisp that
 compiles to Lua. Using the plugin [Aniseed](https://github.com/Olical/aniseed)
 we can write our configuration using a Language with a syntax and macro system
 familiar to Clojure users.

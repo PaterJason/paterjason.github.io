@@ -1,5 +1,3 @@
 # Blogs
 
-This is a test
-
-[test url](/#/blog/neovim_fennel)
+[Clojure and Neovim](/#/blog/neovim_fennel) (27 July, 2021)

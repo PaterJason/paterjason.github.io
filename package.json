@@ -2,10 +2,10 @@
   "name": "github-page",
   "homepage": "https://paterjason.github.io/",
   "scripts": {
-    "watch": "npx shadow-cljs watch app",
+    "watch": "npx shadow-cljs watch app --debug",
     "release": "npx shadow-cljs release app",
-    "css-build": "node-sass --omit-source-map-url sass/mystyles.scss out/css/mystyles.css",
-    "css-watch": "npm run css-build -- --watch"
+    "css-watch": "npx sass sass/mystyles.scss out/css/mystyles.css --watch",
+    "css-build": "npx sass sass/mystyles.scss out/css/mystyles.css --no-source-map --style=compressed"
   },
   "dependencies": {
     "react": "17.0.2",
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "bulma": "^0.9.3",
-    "node-sass": "^7.0.1",
+    "sass": "^1.49.7",
     "shadow-cljs": "2.16.12"
   }
 }

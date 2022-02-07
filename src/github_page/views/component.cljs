@@ -1,44 +1,52 @@
 (ns github-page.views.component
   (:require
-   [re-frame.core :as rf]
-   [github-page.subs :as subs]
-   [github-page.events :as events]))
+   [ajax.core :as ajax]
+   [helix.core :refer [defnc]]
+   [helix.dom :as d]
+   [helix.hooks :as hooks]))
 
-(defn user-card []
-  (let [github @(rf/subscribe [::subs/github])]
+(defnc user-card- []
+  (let [[github set-github] (hooks/use-state nil)
+        get-github (fn []
+                     (ajax/GET "https://api.github.com/users/paterjason"
+                       {:handler set-github
+                        :error-handler set-github
+                        :response-format (ajax/json-response-format {:keywords? true})}))]
+    (hooks/use-effect
+     :once
+     (get-github))
     (condp apply [github]
-      nil? [:progress.progress]
-      :failure [:div.notification.is-danger
-                [:p.title (:message github)]
-                [:p.is-family-monospace (:debug-message github)]
-                [:button.button
-                 {:on-click #(rf/dispatch [::events/get-github])}
-                 [:span.icon-text
-                  [:span.icon [:i.fas.fa-sync]]
-                  [:span "Retry"]]]]
-      [:div.card
-       [:div.card-image
-        [:figure.image.is-square
-         [:img {:src (:avatar_url github)}]]]
-       [:div.card-content
-        [:h1.title (:name github)]
-        [:ul
-         [:li
-          [:a {:href "mailto:jasonbipaterson@gmail.com"}
-           [:span.icon-text
-            [:span.icon [:i.fas.fa-envelope]]
-            [:span "jasonbipaterson@gmail.com"]]]]
-         [:li
-          [:a {:href (:html_url github)}
-           [:span.icon-text
-            [:span.icon [:i.fab.fa-github]]
-            [:span "Github"]]]]
-         [:li
-          [:a {:href "https://www.linkedin.com/in/jason-paterson-470642146/"}
-           [:span.icon-text
-            [:span.icon [:i.fab.fa-linkedin]]
-            [:span "LinkedIn"]]]]
-         [:li
-          [:span.icon-text
-           [:span.icon [:i.fas.fa-map-marker-alt]]
-           [:span (:location github)]]]]]])))
+      nil? (d/progress {:class "progress"})
+      :failure (d/div {:class ["notification" "is-danger"]}
+                      (d/h1 {:class "title"} (str (:status github) " " (:status-text github)))
+                      (d/button {:class "button"
+                                 :on-click get-github}
+                                (d/span {:class ["icon-text"]}
+                                        (d/span {:class ["icon"]} (d/i {:class ["fas" "fa-sync"]}))
+                                        (d/span "Retry"))))
+      (d/div {:class "card"}
+             (d/div {:class "card-image"}
+                    (d/figure {:class ["image" "is-square"]}
+                              (d/img {:src (:avatar_url github)})))
+             (d/div {:class "card-content"}
+                    (d/h1 {:class "title"} (:name github))
+                    (d/ul
+                     (d/li
+                      (d/a {:href "mailto:jasonbipaterson@gmail.com"}
+                           (d/span {:class ["icon-text"]}
+                                   (d/span {:class ["icon"]} (d/i {:class ["fas" "fa-envelope"]}))
+                                   (d/span "jasonbipaterson@gmail.com"))))
+                     (d/li
+                      (d/a {:href (:html_url github)}
+                           (d/span {:class ["icon-text"]}
+                                   (d/span {:class ["icon"]} (d/i {:class ["fab" "fa-github"]}))
+                                   (d/span "GitHub"))))
+                     (d/li
+                      (d/a {:href "https://www.linkedin.com/in/jason-paterson-470642146/"}
+                           (d/span {:class ["icon-text"]}
+                                   (d/span {:class ["icon"]} (d/i {:class ["fab" "fa-linkedin"]}))
+                                   (d/span "LinkedIn"))))
+                     (d/li
+                      (d/span {:class ["icon-text"]}
+                              (d/span {:class ["icon"]} (d/i {:class ["fas" "fa-map-marker"]}))
+                              (d/span (:location github))))))))))

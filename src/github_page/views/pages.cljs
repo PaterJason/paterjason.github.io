@@ -1,24 +1,31 @@
 (ns github-page.views.pages
   (:require
    [github-page.views.component :as component]
-   ["react-markdown" :default ReactMarkdown]))
+   [helix.core :refer [defnc $]]
+   ["react-markdown" :default ReactMarkdown]
+   [helix.dom :as d]))
 
-(defn home []
-  [:div
-   [:div.container
-    [:div.content
-     [:h1 "WIP"]]]])
+(defnc home []
+  (d/div
+   {:class "container"}
+   (d/div
+    {:class "content"}
+    (d/h1 "WIP"))))
 
-(defn about []
-  [:div.container
-   [:div.columns.m-0
-    [:div.column.is-half-tablet.is-one-third-desktop
-     [component/user-card]]
-    [:div.column
-     [:div.content
-      [:h1 "ABOUT"]
-      [:p
-       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."]]]]])
+(defnc about []
+  (d/div
+   {:class "container"}
+   (d/div
+    {:class ["columns" "m-0"]}
+    (d/div
+     {:class ["column" "is-half-tablet" "is-one-third-desktop"]}
+     ($ component/user-card-))
+    (d/div
+     {:class "column"}
+     (d/div
+      {:class "content"}
+      (d/h1 "About")
+      (d/p "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))))))
 
 (def md
   "
@@ -40,8 +47,6 @@ A table:
 | - | - |
   ")
 
-(defn blog []
-  [:div
-   [:div.container
-    [:div.content
-     [:> ReactMarkdown {:children md}]]]])
+(defnc blog []
+  (d/div {:class ["container" "content"]}
+         ($ ReactMarkdown {:children md})))

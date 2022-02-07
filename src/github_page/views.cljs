@@ -1,66 +1,95 @@
 (ns github-page.views
   (:require
-   [github-page.events :as events]
    [github-page.routes :as routes]
-   [github-page.subs :as subs]
-   [re-frame.core :as rf]
-   [reitit.frontend.easy :as rfe]))
+   [goog.object :as gobj]
+   [helix.core :refer [$ <> defnc] :as helix]
+   [helix.dom :as d]
+   [helix.hooks :as hooks]
+   [reitit.frontend.easy :as rfe]
+   [reitit.frontend.history :as rfh]))
 
-(defn navbar []
-  (let [burger-expanded (rf/subscribe [::subs/burger-expanded])]
-    [:nav.navbar.is-primary
-     {:aria-label "main navigation"
+(defnc navbar- [{match :children}]
+  (let [[burger set-burger] (hooks/use-state false)]
+    (hooks/use-effect
+     [match]
+     (set-burger false))
+    (d/nav
+     {:class ["navbar" "is-primary"]
+      :aria-label "main navigation"
       :role "navigation"}
-     [:div.navbar-brand
-      [:div.navbar-item.has-text-weight-bold "Jason Paterson"]
-      [:a.navbar-burger
-       {:class (when @burger-expanded "is-active")
-        :on-click #(rf/dispatch [::events/navbar-toggle])
+     (d/div
+      {:class ["navbar-brand"]}
+      (d/div {:class ["navbar-item" "has-text-weight-bold"]} "Jason Paterson")
+      (d/a
+       {:class ["navbar-burger" (when burger "is-active")]
+        :on-click #(set-burger not)
         :aria-expanded "false"
         :aria-label "menu"
         :role "button"
         :data-target "navbar-menu"}
-
-       [:span {:aria-hidden "true"}]
-       [:span {:aria-hidden "true"}]
-       [:span {:aria-hidden "true"}]]]
-     [:div.navbar-menu
+       (d/span {:aria-hidden "true"})
+       (d/span {:aria-hidden "true"})
+       (d/span {:aria-hidden "true"})))
+     (d/div
       {:id "navbar-menu"
-       :class (when @burger-expanded
-                "is-active")}
-      [:div.navbar-start
-       [:a.navbar-item
-        {:href (rfe/href ::routes/home)}
-        [:span.icon-text
-         [:span.icon [:i.fas.fa-home]]
-         [:span "Home"]]]
-       [:a.navbar-item
-        {:href (rfe/href ::routes/about)}
-        [:span.icon-text
-         [:span.icon [:i.fas.fa-info]]
-         [:span "About"]]]
-       [:a.navbar-item
-        {:href (rfe/href ::routes/blog)}
-        [:span.icon-text
-         [:span.icon [:i.fas.fa-blog]]
-         [:span "Blog"]]]
-       [:div.navbar-item.has-dropdown.is-hoverable
-        [:a.navbar-link "More"]
-        [:div.navbar-dropdown
-         [:a.navbar-item
-          {:href "https://github.com/PaterJason/paterjason.github.io"}
-          [:span.icon-text
-           [:span.icon [:i.fab.fa-github]]
-           [:span "Source"]]]]]]
-      [:div.navbar-end]]]))
+       :class ["navbar-menu" (when burger "is-active")]}
+      (d/div
+       {:class ["navbar-start"]}
+       (d/a
+        {:class ["navbar-item"]
+         :href (rfe/href ::routes/home)}
+        (d/span
+         {:class ["icon-text"]}
+         (d/span {:class ["icon"]} (d/i {:class ["fas" "fa-home"]}))
+         (d/span "Home")))
+       (d/a
+        {:class ["navbar-item"]
+         :href (rfe/href ::routes/about)}
+        (d/span
+         {:class ["icon-text"]}
+         (d/span {:class ["icon"]} (d/i {:class ["fas" "fa-info"]}))
+         (d/span "About")))
+       (d/a
+        {:class ["navbar-item"]
+         :href (rfe/href ::routes/blog)}
+        (d/span
+         {:class ["icon-text"]}
+         (d/span {:class ["icon"]} (d/i {:class ["fas" "fa-blog"]}))
+         (d/span "Blog")))
+       (d/div
+        {:class ["navbar-item" "has-dropdown" "is-hoverable"]}
+        (d/a {:class ["navbar-link"]} "More")
+        (d/div
+         {:class ["navbar-dropdown"]}
+         (d/a
+          {:class ["navbar-item"]
+           :href "https://github.com/PaterJason/paterjason.github.io"}
+          (d/span
+           {:class ["icon-text"]}
+           (d/span {:class ["icon"]} (d/i {:class ["fab" "fa-github"]}))
+           (d/span "Source"))))))))))
 
-(defn router-component []
-  (let [current-route @(rf/subscribe [::subs/current-route])]
-    [:div
-     (when current-route
-       [(get-in current-route [:data :view])])]))
+(defnc router-component- [{match :children}]
+  (when match
+    (let [view (get-in match [:data :view])]
+      ($ view))))
 
-(defn main-panel []
-  [:div
-   [navbar]
-   [router-component]])
+(defnc app []
+  (let [[match set-match] (hooks/use-state nil)
+        on-navigate-fn (fn [next-match history]
+                         (when (not= match next-match)
+                           (set-match next-match)))
+        router routes/router]
+    (hooks/use-effect
+     [router]
+     (rfe/start!
+      router
+      on-navigate-fn
+      {:use-fragment true
+       :ignore-anchor-click? (fn [router e el uri]
+                               (and (rfh/ignore-anchor-click? router e el uri)
+                                    (not= "false" (gobj/get (.-dataset el) "reititHandleClick"))))}))
+    (when match
+      (<>
+       ($ navbar- match)
+       ($ router-component- match)))))

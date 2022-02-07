@@ -12,7 +12,12 @@
     {:name ::about
      :view pages/about}]
    ["blog"
-    {:name ::blog
-     :view pages/blog}]])
+    [""
+     {:name ::blog-root
+      :view pages/blog}]
+    ["/:id"
+     {:name ::blog
+      :view pages/blog}]
+    ]])
 
 (def router (r/router routes))

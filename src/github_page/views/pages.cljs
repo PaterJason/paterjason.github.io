@@ -15,7 +15,7 @@
   (d/div {:class "container"}
          (d/div {:class ["columns" "m-0"]}
                 (d/div {:class ["column" "is-half-tablet" "is-one-third-desktop"]}
-                       ($ component/user-card-))
+                       ($ component/user-card))
                 (d/div {:class "column"}
                        (d/div {:class "content"}
                               (d/h1 "About")

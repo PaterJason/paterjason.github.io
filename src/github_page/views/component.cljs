@@ -5,7 +5,7 @@
    [helix.dom :as d]
    [helix.hooks :as hooks]))
 
-(defnc user-card- []
+(defnc user-card []
   (let [[github set-github] (hooks/use-state nil)
         get-github (fn []
                      (ajax/GET "https://api.github.com/users/paterjason"

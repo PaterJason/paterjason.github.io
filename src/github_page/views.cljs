@@ -8,7 +8,7 @@
    [reitit.frontend.easy :as rfe]
    [reitit.frontend.history :as rfh]))
 
-(defnc navbar [{match :children}]
+(defnc navbar [{:keys [match]}]
   (let [[burger set-burger] (hooks/use-state false)]
     (hooks/use-effect
      [match]
@@ -54,7 +54,7 @@
                                                     (d/span {:class "icon"} (d/i {:class ["fab" "fa-github"]}))
                                                     (d/span "Source"))))))))))
 
-(defnc router-component [{match :children}]
+(defnc router-component [{:keys [match]}]
   (when match
     (let [view (get-in match [:data :view])]
       ($ view match))))
@@ -75,8 +75,8 @@
                                (and (rfh/ignore-anchor-click? router e el uri)
                                     (not= "false" (gobj/get (.-dataset el) "reititHandleClick"))))}))
     (if match
-      (<>
-       ($ navbar match)
-       ($ router-component match))
+      (d/div
+       ($ navbar {:match match})
+       ($ router-component {:match match}))
       (d/div {:class "content"}
              (d/h1 "Router error")))))

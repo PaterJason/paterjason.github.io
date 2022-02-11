@@ -9,7 +9,6 @@
   [lilactown/helix "0.1.5"]
   [cljs-ajax "0.8.4"]
 
-  [binaryage/devtools "1.0.4"]
   [cider/cider-nrepl "0.28.1"]]
 
  :dev-http

@@ -26,7 +26,7 @@ $primary: $orange;
 @keyframes drop {
   0%   {
   opacity: 0;
-  transform: translateY(-100%);
+  transform: translateY(-50%);
   pointer-events: none;
 }
   100% {
@@ -49,16 +49,10 @@ $primary: $orange;
 
 .navbar {
   animation-name: drop;
-  animation-duration: 0.5s;
+  animation-duration: .2s;
 }
 
-.navbar-dropdown {
-  animation-name: drop;
-  animation-duration: .1s;
-  animation-timing-function: ease-out;
-}
-
-@include until($desktop) {
+@include touch {
   .navbar-menu {
     display: block;
     position: absolute;
@@ -82,4 +76,12 @@ $primary: $orange;
   animation-name: slide-in;
   animation-duration: .2s;
   animation-timing-function: ease-out;
+}
+
+@include desktop{
+  .navbar-dropdown {
+    animation-name: drop;
+    animation-duration: .1s;
+    animation-timing-function: ease-out;
+  }
 }

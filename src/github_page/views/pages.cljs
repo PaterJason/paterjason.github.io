@@ -1,11 +1,11 @@
 (ns github-page.views.pages
   (:require
+   [ajax.core :as ajax]
    [github-page.views.component :as component]
    [helix.core :refer [$ defnc]]
    [helix.dom :as d]
-   ["react-markdown" :default ReactMarkdown]
    [helix.hooks :as hooks]
-   [ajax.core :as ajax]))
+   ["react-markdown" :default ReactMarkdown]))
 
 (defnc home []
   (d/div {:class ["has-text-centered" "is-flex" "is-justify-content-center"]}
@@ -16,7 +16,7 @@
                          :animation-timing-function "ease-out"}}
                 (d/h1 {:class ["title" "is-size-1"]}
                       "Jason Paterson")
-                (d/h2 {:class "subtitle"}
+                (d/h2 {:class ["subtitle"  "has-text-grey"]}
                       "Full Stack Engineer"))))
 
 (defnc about []

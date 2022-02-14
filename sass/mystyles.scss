@@ -22,3 +22,64 @@ $primary: $orange;
 .icon-text {
   display: inline-block;
 }
+
+@keyframes drop {
+  0%   {
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+  100% {
+  opacity: 1;
+  transform: translateY(0%);
+  pointer-events: auto;
+}
+}
+
+@keyframes slide-in {
+  0% {
+  opacity: 0;
+  transform: translateY(200px);
+}
+  100% {
+  opacity: 1;
+  transform: none;
+}
+}
+
+.navbar {
+  animation-name: drop;
+  animation-duration: 0.5s;
+}
+
+.navbar-dropdown {
+  animation-name: drop;
+  animation-duration: .1s;
+  animation-timing-function: ease-out;
+}
+
+@include until($desktop) {
+  .navbar-menu {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all .2s ease-out;
+    pointer-events: none;
+  }
+
+  .navbar-menu.is-active {
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.container {
+  animation-name: slide-in;
+  animation-duration: .2s;
+  animation-timing-function: ease-out;
+}

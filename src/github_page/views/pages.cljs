@@ -8,8 +8,16 @@
    [ajax.core :as ajax]))
 
 (defnc home []
-  (d/div {:class ["container" "content"]}
-         (d/h1 "WIP")))
+  (d/div {:class ["has-text-centered" "is-flex" "is-justify-content-center"]}
+         (d/div {:style {:position "absolute"
+                         :bottom "50vh"
+                         :animation-name "slide-in"
+                         :animation-duration "1.5s"
+                         :animation-timing-function "ease-out"}}
+                (d/h1 {:class ["title" "is-size-1"]}
+                      "Jason Paterson")
+                (d/h2 {:class "subtitle"}
+                      "Full Stack Engineer"))))
 
 (defnc about []
   (d/div {:class "container"}

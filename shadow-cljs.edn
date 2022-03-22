@@ -5,11 +5,11 @@
  :source-paths ["src"]
 
  :dependencies
- [[metosin/reitit-frontend "0.5.15"]
+ [[metosin/reitit-frontend "0.5.17"]
   [lilactown/helix "0.1.5"]
   [cljs-ajax "0.8.4"]
 
-  [cider/cider-nrepl "0.28.1"]]
+  [cider/cider-nrepl "0.28.3"]]
 
  :dev-http
  {8280 "./"}

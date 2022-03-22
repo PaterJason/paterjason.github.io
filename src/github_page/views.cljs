@@ -61,7 +61,7 @@
 
 (defnc app []
   (let [[match set-match] (hooks/use-state nil)
-        on-navigate-fn (fn [next-match history]
+        on-navigate-fn (fn [next-match _history]
                          (when (not= match next-match)
                            (set-match next-match)))
         router routes/router]
@@ -75,7 +75,7 @@
                                (and (rfh/ignore-anchor-click? router e el uri)
                                     (not= "false" (gobj/get (.-dataset el) "reititHandleClick"))))}))
     (if match
-      (d/div
+      (<>
        ($ navbar {:match match})
        ($ router-component {:match match}))
       (d/div {:class "content"}

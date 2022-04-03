@@ -5,11 +5,19 @@
    [helix.core :refer [$ <> defnc] :as helix]
    [helix.dom :as d]
    [helix.hooks :as hooks]
+   [reitit.core :as r]
    [reitit.frontend.easy :as rfe]
    [reitit.frontend.history :as rfh]))
 
 (defnc navbar [{:keys [match]}]
-  (let [[burger set-burger] (hooks/use-state false)]
+  (let [[burger set-burger] (hooks/use-state false)
+        href (fn [route-name]
+               (let [{:keys [title icon]} (:data (r/match-by-name routes/router route-name))]
+                 (d/a {:class "navbar-item"
+                       :href (rfe/href route-name)}
+                      (d/span {:class "icon-text"}
+                              (d/span {:class "icon"} (d/i {:class icon}))
+                              (d/span title)))))]
     (hooks/use-effect
      [match]
      (set-burger false))
@@ -30,29 +38,15 @@
            (d/div {:id "navbar-menu"
                    :class ["navbar-menu" (when burger "is-active")]}
                   (d/div {:class "navbar-start"}
+                         (href ::routes/home)
+                         (href ::routes/about)
+                         (href ::routes/blog-index))
+                  (d/div {:class "navbar-end"}
                          (d/a {:class "navbar-item"
-                               :href (rfe/href ::routes/home)}
+                               :href "https://github.com/PaterJason/paterjason.github.io"}
                               (d/span {:class "icon-text"}
-                                      (d/span {:class "icon"} (d/i {:class ["fas" "fa-home"]}))
-                                      (d/span "Home")))
-                         (d/a {:class "navbar-item"
-                               :href (rfe/href ::routes/about)}
-                              (d/span {:class "icon-text"}
-                                      (d/span {:class "icon"} (d/i {:class ["fas" "fa-info"]}))
-                                      (d/span "About")))
-                         (d/a {:class "navbar-item"
-                               :href (rfe/href ::routes/blog-root)}
-                              (d/span {:class ["icon-text"]}
-                                      (d/span {:class ["icon"]} (d/i {:class ["fas" "fa-blog"]}))
-                                      (d/span "Blog")))
-                         (d/div {:class ["navbar-item" "has-dropdown" "is-hoverable"]}
-                                (d/a {:class "navbar-link"} "More")
-                                (d/div {:class "navbar-dropdown"}
-                                       (d/a {:class "navbar-item"
-                                             :href "https://github.com/PaterJason/paterjason.github.io"}
-                                            (d/span {:class "icon-text"}
-                                                    (d/span {:class "icon"} (d/i {:class ["fab" "fa-github"]}))
-                                                    (d/span "Source"))))))))))
+                                      (d/span {:class "icon"} (d/i {:class ["fab" "fa-github"]}))
+                                      (d/span "Source"))))))))
 
 (defnc router-component [{:keys [match]}]
   (when match
@@ -62,8 +56,8 @@
 (defnc app []
   (let [[match set-match] (hooks/use-state nil)
         on-navigate-fn (fn [next-match _history]
-                         (when (not= match next-match)
-                           (set-match next-match)))
+                         (set! js/document.title (str "Jason Paterson - " (get-in next-match [:data :title])))
+                         (set-match next-match))
         router routes/router]
     (hooks/use-effect
      [router]

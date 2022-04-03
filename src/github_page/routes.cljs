@@ -7,17 +7,19 @@
   ["/"
    [""
     {:name ::home
+     :title "Home"
+     :icon ["fas" "fa-home"]
      :view pages/home}]
    ["about"
     {:name ::about
+     :title "About"
+     :icon ["fas" "fa-info"]
      :view pages/about}]
    ["blog"
-    [""
-     {:name ::blog-root
-      :view pages/blog}]
-    ["/:id"
-     {:name ::blog
-      :view pages/blog}]
-    ]])
+    {:title "Blog"
+     :icon ["fas" "fa-blog"]
+     :view pages/blog}
+    ["" {:name ::blog-index}]
+    ["/:id" {:name ::blog}]]])
 
 (def router (r/router routes))

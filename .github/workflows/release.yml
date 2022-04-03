@@ -35,7 +35,6 @@ jobs:
       - name: build
         run: |
           npm ci
-          npm run css-build
           npm run release
 
       - name: setup git config

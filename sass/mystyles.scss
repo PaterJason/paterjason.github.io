@@ -2,38 +2,25 @@
 
 @import url('//pro.fontawesome.com/releases/v5.15.4/css/all.css');
 
-@import url('//fonts.googleapis.com/css?family=Poppins:400,700|Space+Mono');
-$family-sans-serif: "Poppins", sans-serif;
-$family-monospace: "Space Mono", monospace;
+@import url('//fonts.googleapis.com/css?family=Inter:400,700|JetBrains+Mono');
+$family-sans-serif: "Inter", sans-serif;
+$family-monospace: "JetBrains Mono", monospace;
 
-$orange: #ff9e64;
-$yellow: #e0af68;
-$green: #9ece6a;
-$turquoise: #1abc9c;
-$cyan: #7dcfff;
-$blue: #7aa2f7;
-$purple: #9d7cd8;
-$red: #f7768e;
+$orange: #965027;
+$yellow: #8f5e15;
+$green: #485e30;
+$turquoise: #33635c;
+$cyan: #166775;
+$blue: #34548a;
+$purple: #5a4a78;
+$red: #8c4351;
 
-$primary: $orange;
+$primary: $purple;
 
 @import "../node_modules/bulma/bulma.sass";
 
 .icon-text {
   display: inline-block;
-}
-
-@keyframes drop {
-  0%   {
-  opacity: 0;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-  100% {
-  opacity: 1;
-  transform: translateY(0%);
-  pointer-events: auto;
-}
 }
 
 @keyframes slide-in {
@@ -47,41 +34,20 @@ $primary: $orange;
 }
 }
 
+@keyframes navbar-drop {
+  0%   {
+  opacity: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+  100% {
+  opacity: 1;
+  transform: translateY(0%);
+  pointer-events: auto;
+}
+}
+
 .navbar {
-  animation-name: drop;
+  animation-name: navbar-drop;
   animation-duration: .2s;
-}
-
-@include touch {
-  .navbar-menu {
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: all .2s ease-out;
-    pointer-events: none;
-  }
-
-  .navbar-menu.is-active {
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-.container {
-  animation-name: slide-in;
-  animation-duration: .2s;
-  animation-timing-function: ease-out;
-}
-
-@include desktop{
-  .navbar-dropdown {
-    animation-name: drop;
-    animation-duration: .1s;
-    animation-timing-function: ease-out;
-  }
 }

@@ -28,12 +28,11 @@
                        ($ ReactMarkdown {:children "
 # About
 
-I am a full stack developer specialising in Clojure/ClojureScript, with 3 years
-of consulting experience.
+I am a full stack developer specialising in Clojure/ClojureScript.
 
 "})))))
 
-(defnc blog [{match :children}]
+(defnc blog [{:keys [match]}]
   (let [[md set-md] (hooks/use-state nil)
         id (get-in match [:path-params :id] "index")
         get-md (fn []

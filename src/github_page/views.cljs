@@ -9,18 +9,16 @@
    [reitit.frontend.easy :as rfe]
    [reitit.frontend.history :as rfh]))
 
-(defnc navbar [{:keys [match]}]
+(defnc navbar []
   (let [[burger set-burger] (hooks/use-state false)
-        href (fn [route-name]
-               (let [{:keys [title icon]} (:data (r/match-by-name routes/router route-name))]
-                 (d/a {:class "navbar-item"
-                       :href (rfe/href route-name)}
-                      (d/span {:class "icon-text"}
-                              (d/span {:class "icon"} (d/i {:class icon}))
-                              (d/span title)))))]
-    (hooks/use-effect
-     [match]
-     (set-burger false))
+        link (helix/fnc [{route-name :children}]
+                        (let [{:keys [title icon]} (:data (r/match-by-name routes/router route-name))]
+                          (d/a {:class "navbar-item"
+                                :on-click #(set-burger false)
+                                :href (rfe/href route-name)}
+                               (d/span {:class "icon-text"}
+                                       (d/span {:class "icon"} (d/i {:class icon}))
+                                       (d/span title)))))]
     (d/nav {:class ["navbar" "is-primary"]
             :aria-label "main navigation"
             :role "navigation"}
@@ -38,9 +36,9 @@
            (d/div {:id "navbar-menu"
                    :class ["navbar-menu" (when burger "is-active")]}
                   (d/div {:class "navbar-start"}
-                         (href ::routes/home)
-                         (href ::routes/about)
-                         (href ::routes/blog-index))
+                         ($ link ::routes/home)
+                         ($ link ::routes/about)
+                         ($ link ::routes/blog-index))
                   (d/div {:class "navbar-end"}
                          (d/a {:class "navbar-item"
                                :href "https://github.com/PaterJason/paterjason.github.io"}
@@ -51,7 +49,7 @@
 (defnc router-component [{:keys [match]}]
   (when match
     (let [view (get-in match [:data :view])]
-      ($ view match))))
+      ($ view {:match match}))))
 
 (defnc app []
   (let [[match set-match] (hooks/use-state nil)
@@ -70,7 +68,7 @@
                                     (not= "false" (gobj/get (.-dataset el) "reititHandleClick"))))}))
     (if match
       (<>
-       ($ navbar {:match match})
+       ($ navbar)
        ($ router-component {:match match}))
       (d/div {:class "content"}
              (d/h1 "Router error")))))

@@ -3,14 +3,16 @@
    [github-page.config :as config]
    [github-page.views :as views]
    [helix.core :refer [$]]
-   ["react-dom" :as react-dom]))
+   ["react-dom/client" :refer [createRoot]]))
 
 (defn dev-setup []
   (when config/debug?
     (println "dev mode")))
 
 (defn ^:dev/after-load mount-root []
-  (react-dom/render ($ views/app) (js/document.getElementById "app")))
+  (let [container (js/document.getElementById "app")
+        root (createRoot container)]
+    (.render root ($ views/app))))
 
 (defn init []
   (dev-setup)

@@ -18,36 +18,3 @@ $red: #8c4351;
 $primary: $purple;
 
 @import "../node_modules/bulma/bulma.sass";
-
-.icon-text {
-  display: inline-block;
-}
-
-@keyframes slide-in {
-  0% {
-  opacity: 0;
-  transform: translateY(200px);
-}
-  100% {
-  opacity: 1;
-  transform: none;
-}
-}
-
-@keyframes navbar-drop {
-  0%   {
-  opacity: 0;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-  100% {
-  opacity: 1;
-  transform: translateY(0%);
-  pointer-events: auto;
-}
-}
-
-.navbar {
-  animation-name: navbar-drop;
-  animation-duration: .2s;
-}
